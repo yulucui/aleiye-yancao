@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            table.table.table-striped
+                thead
+                    tr
+                        th 标题
+                        th 创建时间
+                        th 描述
+                tbody
+                    each report in reports
+                        tr
+                            td
+                                a(href="/watch/charts?_id=" + report._id) #{report.title}
+                            td
+                                | #{report.creatTime}
+                            td
+                                | #{report.remark}
+
+block foot-js
+    script(src='/assets/plugins/jquery.form/jquery.form.js')

@@ -1,0 +1,61 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            .lists
+                a.btn.btn-info(href='/user/creat') 添加用户
+                table.table.table-striped
+                    thead
+                        tr
+                            th 用户名 
+                            th 备注
+                            th 操作
+                    tbody
+                        - each user in users
+                            tr
+                                td
+                                    | #{user.username}
+                                td #{user.describe}
+                                td
+                                    if (user.userGrop == 3)
+                                        a.btn.btn-default.btn-xs(href='/user/edit?_id=' + user._id) 编辑
+                                        a.btn.btn-danger.btn-xs.J_del(href='/user/del?_id=' + user._id) 删除
+                //if (pageInfo && pageInfo.totalPage > 1)
+                //    include ../mixin
+                //    +pagination(pageInfo)
+
+block foot-js
+    script(src='/assets/plugins/jquery.form/jquery.form.js')
+    script.
+        var token = '#{token}';
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(function() {
+            $(document).on('click', '.J_del', function(e) {
+                e.preventDefault();
+                var $this = $(this);
+                var url = $this.attr('href');
+                var messenger = Messenger().post("处理中...");
+                $.get(url, function(res) {
+                    var status = res;
+                    if (status) {
+                        messenger.update({
+                            message: '删除成功',
+                            hideAfter: 3,
+                            type: 'success'
+                        });
+                        $this.closest('tr').remove();
+
+                    } else {
+                        messenger.update({
+                            message: '删除失败',
+                            hideAfter: 3,
+                            type: 'error'
+                        });
+                    }
+                })
+            })
+        })

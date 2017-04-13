@@ -1,0 +1,108 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            form(action='', method='post')
+                .form-group
+                    label 标题
+                    input#title.form-control(name='name',value=report.title)
+                .form-group
+                    label 报表
+                    h4 选择报表
+                    ul#charts.list-group(data-charts=report.charts)
+                    - each chart in charts
+                        li.list-group-item
+                            label
+                                input.chart_inp(name='actions[]', type='checkbox', value=chart._id)
+                                | #{chart.chartParam.title.text} (#{chart.remark})
+                .form-group
+                    label 描述
+                    textarea#remark.form-control(name='description', rows='8')
+                        | #{report.remark}
+                input(type='hidden', name='_csrf', value='#{token}')
+                div#save.btn.btn-primary(type='submit',_id=report._id) 提交
+
+block foot-js
+    script(src='/assets/plugins/jquery.form/jquery.form.js')
+    script.
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(function() {
+            var charts = $('#charts').attr('data-charts');
+            charts = JSON.parse(charts);
+            $(charts).each(function(i,chartId) {
+               $('.chart_inp').each(function(i,item) {
+                   if($(item).val() == chartId)
+                       $(item).attr('checked','checked');
+               });
+            });
+            $('#save').click(function() {
+                Messenger().post("处理中...");
+                var charts = (function () {
+                    var arr = [];
+                    $('.chart_inp:checked').each(function (i, item) {
+                        arr.push($(item).val());
+                    });
+                    return arr;
+                })();
+                var param = {
+                    title: $('#title').val(),
+                    creatTime: new Date(),
+                    remark: $('#remark').val(),
+                    charts: charts
+                }
+                var id = $(this).attr('_id');
+                if(id)
+                    param._id = id;
+                $.ajax({
+                    url: '/report/save',
+                    method: 'POST',
+                    data: {param:JSON.stringify(param)},
+                    success: function (data) {
+                        if(data)
+                            window.location.href = '/report/list';
+                    }
+                });
+            });
+        })
+//        $(function() {
+//            var messenger;
+//            $('form').ajaxForm({
+//                beforeSerialize: function() {
+//                    console.log('beforeSerialize')
+//                },
+//                beforeSubmit: function() {
+//                    console.log('beforeSubmit')
+//                    messenger = Messenger().post("处理中...");
+//                },
+//                success: function(data, status, xhr, $form) {
+//                    console.log(data)
+//                    var status = data.status;
+//                    if (status) {
+//                        messenger.update({
+//                            message: '发布成功',
+//                            hideAfter: 3,
+//                            type: 'success'
+//                        });
+//                        $form[0].reset();
+//                    } else {
+//                        messenger.update({
+//                            message: '发布失败',
+//                            hideAfter: 3,
+//                            type: 'success'
+//                        });
+//                    }
+//                },
+//                err: function() {
+//                    console.log('error')
+//                    messenger.update({
+//                        message: '系统繁忙',
+//                        hideAfter: 3,
+//                        type: 'success'
+//                    });
+//                }
+//            })
+//        })

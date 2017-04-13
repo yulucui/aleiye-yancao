@@ -1,0 +1,13 @@
+::1 - - [10/Mar/2017:14:19:51 +0000] "GET / HTTP/1.1" 200 2596
+::1 - - [10/Mar/2017:14:19:51 +0000] "GET /assets/server/css/font-awesome.min.css HTTP/1.1" 200 20766
+::1 - - [10/Mar/2017:14:19:51 +0000] "GET /assets/server/css/main.css HTTP/1.1" 200 52907
+::1 - - [10/Mar/2017:14:19:51 +0000] "GET /assets/server/css/animate.css HTTP/1.1" 200 57094
+::1 - - [10/Mar/2017:14:19:51 +0000] "GET /assets/plugins/bootstrap/css/bootstrap.min.css HTTP/1.1" 200 99971
+::1 - - [10/Mar/2017:14:19:51 +0000] "GET /assets/server/js/modernizr-2.6.2.min.js HTTP/1.1" 200 15414
+::1 - - [10/Mar/2017:14:19:51 +0000] "GET /assets/server/js/jquery-1.10.2.min.js HTTP/1.1" 200 93107
+::1 - - [10/Mar/2017:14:19:51 +0000] "GET /assets/plugins/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 29110
+::1 - - [10/Mar/2017:14:19:51 +0000] "GET /assets/plugins/waypoints/waypoints.min.js HTTP/1.1" 200 8044
+::1 - - [10/Mar/2017:14:19:51 +0000] "GET /assets/plugins/nanoScroller/jquery.nanoscroller.min.js HTTP/1.1" 200 9013
+::1 - - [10/Mar/2017:14:19:51 +0000] "GET /assets/server/js/application.js HTTP/1.1" 200 5487
+::1 - - [10/Mar/2017:14:19:52 +0000] "GET /assets/server/fonts/fontawesome-webfont.woff?v=4.1.0 HTTP/1.1" 200 83760
+::1 - - [10/Mar/2017:14:19:52 +0000] "GET /assets/server/img/aleiye.ico HTTP/1.1" 200 1150

@@ -1,0 +1,106 @@
+extends ../layout
+
+block content
+    .row
+        .col-md-12
+            form(action='', method='post')
+                .form-group
+                    label 用户名
+                    input#username.form-control(name='name')
+                .form-group
+                    label 密码
+                    input#password.form-control(name='name')
+                .form-group
+                    label 报告
+                    h4 选择报告
+                    ul.list-group
+                    - each report in reports
+                        li.list-group-item
+                            label
+                                input.chart_inp(name='actions[]', type='checkbox', value=report._id)
+                                | #{report.title} (#{report.remark})
+                .form-group
+                    label 备注
+                    textarea#describe.form-control(name='description', rows='8')
+                div#save.btn.btn-primary(type='submit') 提交
+
+block foot-js
+    script(src='/assets/plugins/jquery.form/jquery.form.js')
+    script.
+        Messenger.options = {
+            extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+            theme: 'flat'
+        };
+        $(function() {
+            $('#save').click(function() {
+                var messenger = Messenger().post("处理中...");
+                var reports = (function () {
+                    var arr = [];
+                    $('.chart_inp:checked').each(function (i, item) {
+                        arr.push($(item).val());
+                    });
+                    return arr;
+                })();
+                var param = {
+                    username: $('#username').val(),
+                    password: $('#password').val(),
+                    creatTime: new Date(),
+                    describe: $('#describe').val(),
+                    reports: reports
+                }
+                $.ajax({
+                    url: '/user/save',
+                    method: 'POST',
+                    data: {param:JSON.stringify(param)},
+                    success: function (data) {
+                        if(data == -1){
+                            messenger.update({
+                                message: '用户名已存在',
+                                hideAfter: 3,
+                                type: 'error'
+                            });
+                        } else if(data > 0){
+                            window.location.href = '/user/list';
+                        }
+                    }
+                });
+            });
+        })
+//        $(function() {
+//            var messenger;
+//            $('form').ajaxForm({
+//                beforeSerialize: function() {
+//                    console.log('beforeSerialize')
+//                },
+//                beforeSubmit: function() {
+//                    console.log('beforeSubmit')
+//                    messenger = Messenger().post("处理中...");
+//                },
+//                success: function(data, status, xhr, $form) {
+//                    console.log(data)
+//                    var status = data.status;
+//                    if (status) {
+//                        messenger.update({
+//                            message: '发布成功',
+//                            hideAfter: 3,
+//                            type: 'success'
+//                        });
+//                        $form[0].reset();
+//                    } else {
+//                        messenger.update({
+//                            message: '发布失败',
+//                            hideAfter: 3,
+//                            type: 'success'
+//                        });
+//                    }
+//                },
+//                err: function() {
+//                    console.log('error')
+//                    messenger.update({
+//                        message: '系统繁忙',
+//                        hideAfter: 3,
+//                        type: 'success'
+//                    });
+//                }
+//            })
+//        })

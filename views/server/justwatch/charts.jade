@@ -1,0 +1,28 @@
+extends ../layout
+block head-css
+    link(rel='stylesheet', href='/stylesheets/pivot.css')
+block content
+    .row
+        .col-md-12
+            h1 #{report.title}
+            div#report(charts=report.charts)
+    div#templet(style="display:none")
+        table.table.table-striped.chart_templet
+            tbody
+                //tr
+                //    td
+                //        h3.title
+                tr
+                    td
+                        div.chart
+                tr
+                    td
+                        span.remark
+block foot-js
+    script(src='/assets/plugins/jquery.form/jquery.form.js')
+    script(src='/javascripts/pivot/jquery-ui.min.js')
+    script(src='/socket.io/socket.io.js')
+    script(src='/javascripts/echarts/echarts.min.js')
+    script(src='/javascripts/pivot/echart_renderers.js')
+    script(src='/javascripts/pivot/pivot.js')
+    script(src='/javascripts/websocket/watch_chart.js')

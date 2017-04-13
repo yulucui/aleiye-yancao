@@ -1,0 +1,94 @@
+extends ../layout
+block head-css
+    //link(rel='stylesheet', href='/assets/plugins/upload/css/jquery.fileupload.css')
+    link(rel='stylesheet', href='/stylesheets/pivot.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap-datetimepicker.min.css')
+block content
+
+    div
+        .col-md-12
+            form(action='', method='post')
+                .form-group
+                    input(type="radio" name="isProcessTime" value="true" checked)
+                    | 业务时间
+                    input(type="radio" name="isProcessTime" value="false")
+                    | 处理时间
+                .control-group
+                    label.control-label 开始时间
+                    .controls.input-append.date.date_from(data-date-format="yyyy-MM-dd HH:ii" data-link-field="dtp_input1")
+                        input(size="16" type="text" value="" readonly)
+                        span.add-on
+                            i.icon-remove
+                        span.add-on
+                            i.icon-th
+                    input(type="hidden" id="dtp_input1" value="")
+                    label.control-label 结束时间
+                    .controls.input-append.date.date_to(data-date-format="yyyy-MM-dd HH:ii" data-link-field="dtp_input2")
+                        input(size="16" type="text" value="" readonly)
+                        span.add-on
+                            i.icon-remove
+                        span.add-on
+                            i.icon-th
+                    input(type="hidden" id="dtp_input2" value="")
+                .form-group
+                    label 搜索时间
+                    input#queryDate.form-control
+                .form-group
+                    label 搜索语句
+                    input#queryStr.form-control
+                .form-group
+                    label 周期
+                    input#querySpan.form-control
+                #query.form-group
+                    .btn.btn-success 搜索
+                #pivotTab.form-group
+    div#chartInfo(style="display:none")
+        form(action='', method='post')
+            .form-group
+                label 报表标题
+                input#title.form-control
+            .form-group
+                label X轴名称
+                input#xAxis_name.form-control
+            .form-group
+                label Y轴名称
+                input#yAxis_name.form-control
+            .form-group
+                label 描述
+                textarea#remark.form-control(name='description', rows='8')
+            #save.form-group
+                .btn.btn-success 保存报表
+
+                //.form-group
+                //    label 内容
+                //    textarea.form-control(name='content', rows='20')
+                //.form-group
+                //    label 标签
+                //    div
+                //        if (tags && tags.length > 0)
+                //            select#J_select_tags(data-placeholder='请选择标签', name='tags[]', multiple, style='width: 500px;')
+                //                each tag in tags
+                //                    option(value='#{tag.id}') #{tag.name}
+                //.help-block
+                //    span.btn.btn-info.btn-xs 新增标签
+                //input(type='hidden', name='_csrf', value='#{token}')
+                //button.btn.btn-primary(type='submit') 提交
+    script#J_tmpl_gallery_item(type='x-tmpl-mustache')
+        .gallery-item
+            img.gallery-image(src='{{url}}')
+            input(type='hidden', name='gallery[]', value='{{id}}')
+            a.gallery-remove.J_del(href='')
+                span.fa.fa-times-circle
+
+block foot-js
+    script(src='/assets/plugins/jquery.form/jquery.form.js')
+    script(src='/assets/plugins/upload/js/vendor/jquery.ui.widget.js')
+    script(src='/assets/plugins/load-image/js/load-image.min.js')
+    script(src='/javascripts/pivot/jquery-ui.min.js')
+    script(src='/javascripts/echarts/echarts.min.js')
+    script(src='/javascripts/pivot/echart_renderers.js')
+    script(src='/javascripts/pivot/pivot.js')
+    script(src='/javascripts/datepicker/bootstrap-datetimepicker.min.js')
+    script(src='/javascripts/datepicker/bootstrap-datetimepicker.zh-CN.js')
+    script(src='/javascripts/pivot/pivot_main.js')
